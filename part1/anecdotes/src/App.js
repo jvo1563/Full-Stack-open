@@ -22,6 +22,7 @@ const App = () => {
     pointsCopy[selected] += 1;
     setPoints(pointsCopy);
   };
+
   const bestAnecdoteIndex = points.indexOf(Math.max(...points));
   return (
     <div>
