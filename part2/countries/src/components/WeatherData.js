@@ -21,7 +21,7 @@ const WeatherData = ({ country }) => {
       {weather.current ? (
         <div>
           <h3>Weather in {country.capital}</h3>
-          <div>Temperature: {weather.current.feels_like}F</div>
+          <div>Temperature: {weather.current.feels_like} °F</div>
           <img
             alt="weather icon"
             src={`https://openweathermap.org/img/wn/${weather.current.weather[0].icon}@2x.png`}
