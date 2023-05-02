@@ -26,7 +26,7 @@ const WeatherData = ({ country }) => {
             alt="weather icon"
             src={`https://openweathermap.org/img/wn/${weather.current.weather[0].icon}@2x.png`}
           />
-          <div>Weather is {weather.current.wind_speed} m/s</div>
+          <div>Wind speeds are {weather.current.wind_speed} m/s</div>
         </div>
       ) : null}
     </>

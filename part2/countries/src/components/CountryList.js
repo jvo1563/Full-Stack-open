@@ -5,8 +5,6 @@ const CountryList = ({ countriesToShow, setCountriesToShow }) => {
     const country = countriesToShow[0];
     return (
       <div>
-        {/* <div>{JSON.stringify(country, undefined, 2)}</div>
-        <div>{country.capitalInfo.latlng[1]}</div> */}
         <h1>{country.name.common}</h1>
         <div>Capital: {country.capital}</div>
         <div>Area: {country.area} km²</div>
@@ -27,7 +25,7 @@ const CountryList = ({ countriesToShow, setCountriesToShow }) => {
   return countriesToShow.map((country) => (
     <div key={country.name.official}>
       {country.name.common}{" "}
-      <button onClick={() => setCountriesToShow([country])}>show</button>
+      <button onClick={() => setCountriesToShow([country])}>Show</button>
     </div>
   ));
 };
