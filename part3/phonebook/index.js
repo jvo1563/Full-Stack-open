@@ -1,7 +1,10 @@
 const express = require("express");
+const cors = require("cors");
+// https://expressjs.com/en/resources/middleware/morgan.html
 const morgan = require("morgan");
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 
 morgan.token("postContent", (req, res) => {
