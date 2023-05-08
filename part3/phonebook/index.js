@@ -57,18 +57,18 @@ app.delete("/api/persons/:id", (request, response) => {
     .catch((error) => next(error));
 });
 
-app.post("/api/persons", (request, response) => {
+app.post("/api/persons", (request, response, next) => {
   const body = request.body;
-  if (!body.name) {
-    return response.status(400).json({
-      error: "name missing",
-    });
-  }
-  if (!body.number) {
-    return response.status(400).json({
-      error: "number missing",
-    });
-  }
+  // if (!body.name) {
+  //   return response.status(400).json({
+  //     error: "name missing",
+  //   });
+  // }
+  // if (!body.number) {
+  //   return response.status(400).json({
+  //     error: "number missing",
+  //   });
+  // }
   // const checkExist = persons.find((person) => person.name === body.name);
   // if (checkExist) {
   //   return response.status(400).json({
@@ -79,9 +79,12 @@ app.post("/api/persons", (request, response) => {
     name: body.name,
     number: body.number,
   });
-  person.save().then((savedPerson) => {
-    response.json(savedPerson);
-  });
+  person
+    .save()
+    .then((savedPerson) => {
+      response.json(savedPerson);
+    })
+    .catch((error) => next(error));
 });
 
 app.put("/api/persons/:id", (request, response, next) => {

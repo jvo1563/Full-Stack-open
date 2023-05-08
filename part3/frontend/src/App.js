@@ -58,13 +58,22 @@ const App = () => {
         name: newName,
         number: newNumber,
       };
-      personsService.create(personObject).then((returnedPersons) => {
-        setPersons(persons.concat(returnedPersons));
-        setNotifcationMessage(`Success: Added ${newName}`);
-        setTimeout(() => {
-          setNotifcationMessage(null);
-        }, 5000);
-      });
+      personsService
+        .create(personObject)
+        .then((returnedPersons) => {
+          setPersons(persons.concat(returnedPersons));
+          setNotifcationMessage(`Success: Added ${newName}`);
+          setTimeout(() => {
+            setNotifcationMessage(null);
+          }, 5000);
+        })
+        .catch((error) => {
+          console.log(error);
+          setNotifcationMessage(`Error: ${error.response.data.error}`);
+          setTimeout(() => {
+            setNotifcationMessage(null);
+          }, 5000);
+        });
     } else {
       //if person already exist
       if (
