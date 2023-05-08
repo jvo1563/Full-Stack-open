@@ -68,7 +68,7 @@ const App = () => {
           }, 5000);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
           setNotifcationMessage(`Error: ${error.response.data.error}`);
           setTimeout(() => {
             setNotifcationMessage(null);
@@ -93,6 +93,12 @@ const App = () => {
             setNotifcationMessage(
               `Success: Updated ${newName}'s number to ${newNumber}`
             );
+            setTimeout(() => {
+              setNotifcationMessage(null);
+            }, 5000);
+          })
+          .catch((error) => {
+            setNotifcationMessage(`Error: ${error.response.data.error}`);
             setTimeout(() => {
               setNotifcationMessage(null);
             }, 5000);

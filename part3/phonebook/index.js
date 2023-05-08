@@ -59,16 +59,6 @@ app.delete("/api/persons/:id", (request, response) => {
 
 app.post("/api/persons", (request, response, next) => {
   const body = request.body;
-  // if (!body.name) {
-  //   return response.status(400).json({
-  //     error: "name missing",
-  //   });
-  // }
-  // if (!body.number) {
-  //   return response.status(400).json({
-  //     error: "number missing",
-  //   });
-  // }
   // const checkExist = persons.find((person) => person.name === body.name);
   // if (checkExist) {
   //   return response.status(400).json({
@@ -88,22 +78,12 @@ app.post("/api/persons", (request, response, next) => {
 });
 
 app.put("/api/persons/:id", (request, response, next) => {
-  const body = request.body;
-  if (!body.name) {
-    return response.status(400).json({
-      error: "name missing",
-    });
-  }
-  if (!body.number) {
-    return response.status(400).json({
-      error: "number missing",
-    });
-  }
-  const person = {
-    name: body.name,
-    number: body.number,
-  };
-  Person.findByIdAndUpdate(request.params.id, person, { new: true }) // without new: true the updatedPerson would be the old original note
+  const { name, number } = request.body;
+  Person.findByIdAndUpdate(
+    request.params.id,
+    { name, number },
+    { new: true, runValidators: true, context: "query" }
+  ) // without new: true the updatedPerson would be the old original note
     .then((updatedPerson) => {
       response.json(updatedPerson);
     })
