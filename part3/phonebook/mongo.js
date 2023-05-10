@@ -1,4 +1,3 @@
-const e = require("express");
 const mongoose = require("mongoose");
 
 if (process.argv.length < 3) {
@@ -20,7 +19,7 @@ const personSchema = new mongoose.Schema({
 
 const Person = mongoose.model("Person", personSchema);
 
-if (process.argv.length == 3) {
+if (process.argv.length === 3) {
   Person.find({}).then((result) => {
     console.log("phonebook:");
     result.forEach((person) => {
@@ -34,7 +33,7 @@ if (process.argv.length == 3) {
     number: process.argv[4],
   });
 
-  person.save().then((result) => {
+  person.save().then(() => {
     // console.log(result);
     console.log(
       `added ${process.argv[3]} number ${process.argv[4]} to phonebook`
