@@ -1,6 +1,6 @@
 const lodash = require("lodash");
 const dummy = (blogs) => {
-  console.log(blogs);
+  if (blogs.length === 0) return 1;
   return 1;
 };
 
