@@ -82,7 +82,7 @@ describe("total likes", () => {
 
 describe("favorite blog", () => {
   test("empty list", () => {
-    expect(listHelper.favoriteBlog([])).toBe(0);
+    expect(listHelper.favoriteBlog([])).toBe(null);
   });
   test("list has only 1 blog", () => {
     expect(listHelper.favoriteBlog(listWithOneBlog)).toEqual(
@@ -108,6 +108,24 @@ describe("most blogs", () => {
     expect(listHelper.mostBlogs(blogs)).toEqual({
       author: "Robert C. Martin",
       blogs: 3,
+    });
+  });
+});
+
+describe("most likes", () => {
+  test("empty list", () => {
+    expect(listHelper.mostLikes([])).toBe(null);
+  });
+  test("list has only 1 blog", () => {
+    expect(listHelper.mostLikes(listWithOneBlog)).toEqual({
+      author: "Edsger W. Dijkstra",
+      likes: 5,
+    });
+  });
+  test("list has multiple blogs", () => {
+    expect(listHelper.mostLikes(blogs)).toEqual({
+      author: "Edsger W. Dijkstra",
+      likes: 17,
     });
   });
 });
