@@ -32,6 +32,27 @@ test("blogs have an id parameter", async () => {
   blogs.forEach((blog) => expect(blog.id).toBeDefined());
 });
 
+test("a valid blog can be added", async () => {
+  const newBlog = {
+    title: "new title",
+    author: "new author",
+    url: "new url",
+    likes: 50,
+  };
+
+  await api
+    .post("/api/blogs")
+    .send(newBlog)
+    .expect(201)
+    .expect("Content-Type", /application\/json/);
+
+  const blogsAtEnd = await helper.blogsInDb();
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
+
+  const titles = blogsAtEnd.map((blog) => blog.title);
+  expect(titles).toContain("new title");
+});
+
 afterAll(async () => {
   await mongoose.connection.close();
 });
