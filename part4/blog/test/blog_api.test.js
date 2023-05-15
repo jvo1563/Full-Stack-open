@@ -68,8 +68,40 @@ test("adding blog without likes property", async () => {
 
   const blogsAtEnd = await helper.blogsInDb();
   expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
-
   expect(response.body.likes).toBe(0);
+});
+
+test("adding blog without title property", async () => {
+  const newBlog = {
+    author: "new author",
+    url: "new url",
+    likes: 1,
+  };
+  await api.post("/api/blogs").send(newBlog).expect(400);
+  const blogsAtEnd = await helper.blogsInDb();
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
+});
+
+test("adding blog without url property", async () => {
+  const newBlog = {
+    title: "new title",
+    author: "new author",
+    likes: 1,
+  };
+  await api.post("/api/blogs").send(newBlog).expect(400);
+  const blogsAtEnd = await helper.blogsInDb();
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
+});
+
+test("adding blog without author property", async () => {
+  const newBlog = {
+    title: "new title",
+    url: "new url",
+    likes: 1,
+  };
+  await api.post("/api/blogs").send(newBlog).expect(400);
+  const blogsAtEnd = await helper.blogsInDb();
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
 });
 
 afterAll(async () => {
