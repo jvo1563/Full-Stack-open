@@ -58,6 +58,7 @@ test("adding blog without likes property", async () => {
     title: "new title",
     author: "new author",
     url: "new url",
+    // likes: 50,
   };
 
   const response = await api
@@ -73,9 +74,10 @@ test("adding blog without likes property", async () => {
 
 test("adding blog without title property", async () => {
   const newBlog = {
+    // title: "new title",
     author: "new author",
     url: "new url",
-    likes: 1,
+    likes: 50,
   };
   await api.post("/api/blogs").send(newBlog).expect(400);
   const blogsAtEnd = await helper.blogsInDb();
@@ -86,7 +88,8 @@ test("adding blog without url property", async () => {
   const newBlog = {
     title: "new title",
     author: "new author",
-    likes: 1,
+    // url: "new url",
+    likes: 50,
   };
   await api.post("/api/blogs").send(newBlog).expect(400);
   const blogsAtEnd = await helper.blogsInDb();
@@ -96,8 +99,9 @@ test("adding blog without url property", async () => {
 test("adding blog without author property", async () => {
   const newBlog = {
     title: "new title",
+    // author: "new author",
     url: "new url",
-    likes: 1,
+    likes: 50,
   };
   await api.post("/api/blogs").send(newBlog).expect(400);
   const blogsAtEnd = await helper.blogsInDb();
