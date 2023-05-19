@@ -31,6 +31,7 @@ app.use(
     ":method :url :status :res[content-length] - :response-time ms :postContent"
   )
 );
+app.use(middleware.tokenExtractor);
 
 app.use("/api/login", loginRouter);
 app.use("/api/users", usersRouter);
