@@ -19,7 +19,9 @@ blogsRouter.post("/", async (request, response) => {
     return response.status(401).json({ error: "token invalid" });
   }
   const user = await User.findById(decodedToken.id);
-
+  if (!user) {
+    return response.status(401).json({ error: "token invalid or expired" });
+  }
   const blog = new Blog({
     title: body.title,
     author: body.author,
@@ -35,7 +37,24 @@ blogsRouter.post("/", async (request, response) => {
 });
 
 blogsRouter.delete("/:id", async (request, response) => {
-  await Blog.findByIdAndDelete(request.params.id);
+  const decodedToken = jwt.verify(request.token, process.env.SECRET);
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: "token invalid" });
+  }
+  const user = await User.findById(decodedToken.id);
+  if (!user) {
+    return response.status(401).json({ error: "token invalid or expired" });
+  }
+
+  const blog = await Blog.findById(request.params.id);
+  if (blog.user.toString() !== user.id.toString()) {
+    return response
+      .status(403)
+      .json({ error: "Cannot delete blog created by someone else" });
+  }
+  user.blogs = user.blogs.filter((n) => n.toString() !== blog.id);
+  await user.save();
+  await Blog.findByIdAndRemove(request.params.id);
   response.status(204).end();
 });
 
