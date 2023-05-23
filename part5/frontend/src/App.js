@@ -22,8 +22,14 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem("user");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      setUser(user);
-      blogService.setToken(user.token);
+      // Check to see if token is expired
+      if (loginService.verifyUser(user)) {
+        setUser(user);
+        blogService.setToken(user.token);
+      } else {
+        window.localStorage.removeItem("user");
+        window.location.reload(true);
+      }
     }
   }, []);
 
