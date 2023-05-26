@@ -9,7 +9,6 @@ import loginService from "./services/login";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  const [newBlog, setNewBlog] = useState({ author: "", title: "", url: "" });
   const [noticationMessage, setNotifcationMessage] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -62,24 +61,17 @@ const App = () => {
     }
   };
 
-  const addBlog = async (event) => {
-    event.preventDefault();
-    blogFormRef.current.toggleVisibility();
+  const addBlog = async (blogObject) => {
     try {
-      const blog = await blogService.create(newBlog);
+      const blog = await blogService.create(blogObject);
       setBlogs(blogs.concat(blog));
-      setNewBlog({ author: "", title: "", url: "" });
       setNotifcationMessage(
         `Success: ${blog.title} by ${blog.author} was added`
       );
+      blogFormRef.current.toggleVisibility();
     } catch (exception) {
       setNotifcationMessage("Error: " + exception.response.data.error);
     }
-  };
-
-  const handleNewBlogChange = (event) => {
-    const { name, value } = event.target;
-    setNewBlog({ ...newBlog, [name]: value });
   };
 
   const blogList = () => (
@@ -122,11 +114,7 @@ const App = () => {
       {user && logoutButton()}
       {user && (
         <Togglable buttonLabel="Add Blog" ref={blogFormRef}>
-          <BlogForm
-            addBlog={addBlog}
-            newBlog={newBlog}
-            handleNewBlogChange={handleNewBlogChange}
-          />
+          <BlogForm addBlog={addBlog} />
         </Togglable>
       )}
       {user && blogList()}
