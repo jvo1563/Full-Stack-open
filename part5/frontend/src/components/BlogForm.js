@@ -1,4 +1,4 @@
-const Blogform = ({ addBlog, newBlog, handleNewBlogChange }) => (
+const BlogForm = ({ addBlog, newBlog, handleNewBlogChange }) => (
   <div>
     <h2>Create a new blog</h2>
     <form onSubmit={addBlog}>
@@ -29,4 +29,4 @@ const Blogform = ({ addBlog, newBlog, handleNewBlogChange }) => (
   </div>
 );
 
-export default Blogform;
+export default BlogForm;

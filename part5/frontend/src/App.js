@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Blog from "./components/Blog";
-import Login from "./components/Login";
-import Blogform from "./components/Blogform";
+import LoginForm from "./components/LoginForm";
+import BlogForm from "./components/BlogForm";
 import Notification from "./components/Notification";
+import Togglable from "./components/Togglable";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 
@@ -13,6 +14,7 @@ const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
+  const blogFormRef = useRef();
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -62,6 +64,7 @@ const App = () => {
 
   const addBlog = async (event) => {
     event.preventDefault();
+    blogFormRef.current.toggleVisibility();
     try {
       const blog = await blogService.create(newBlog);
       setBlogs(blogs.concat(blog));
@@ -81,7 +84,7 @@ const App = () => {
 
   const blogList = () => (
     <div>
-      <h2>Blogs</h2>
+      <h2>Blog List</h2>
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} />
       ))}
@@ -105,9 +108,10 @@ const App = () => {
 
   return (
     <div>
+      <h1>Blogs</h1>
       <Notification message={noticationMessage} />
       {!user && (
-        <Login
+        <LoginForm
           username={username}
           password={password}
           setUsername={setUsername}
@@ -117,11 +121,13 @@ const App = () => {
       )}
       {user && logoutButton()}
       {user && (
-        <Blogform
-          addBlog={addBlog}
-          newBlog={newBlog}
-          handleNewBlogChange={handleNewBlogChange}
-        />
+        <Togglable buttonLabel="Add Blog" ref={blogFormRef}>
+          <BlogForm
+            addBlog={addBlog}
+            newBlog={newBlog}
+            handleNewBlogChange={handleNewBlogChange}
+          />
+        </Togglable>
       )}
       {user && blogList()}
     </div>
