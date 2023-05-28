@@ -89,11 +89,31 @@ const App = () => {
     }
   };
 
+  const deleteBlog = async (id) => {
+    try {
+      const blogToDelete = blogs.find((blog) => blog.id === id);
+      await blogService.remove(id);
+      const newBlogs = blogs.filter((blog) => blog.id !== id);
+      setBlogs(newBlogs);
+      setNotifcationMessage(
+        `Success: Removed blog ${blogToDelete.title} by ${blogToDelete.author}`
+      );
+    } catch (exception) {
+      setNotifcationMessage("Error: " + exception.response.data.error);
+    }
+  };
+
   const blogList = () => (
     <div>
       <h2>Blog List</h2>
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} updateBlog={updateBlog} />
+        <Blog
+          key={blog.id}
+          blog={blog}
+          updateBlog={updateBlog}
+          deleteBlog={deleteBlog}
+          user={user}
+        />
       ))}
     </div>
   );
