@@ -54,12 +54,16 @@ blogsRouter.delete("/:id", async (request, response) => {
 });
 
 blogsRouter.put("/:id", async (request, response) => {
+  if (!request.token || !request.user) {
+    return response.status(401).json({ error: "invalid token" });
+  }
   const body = request.body;
   const blog = {
     title: body.title,
     author: body.author,
     url: body.url,
     likes: body.likes,
+    user: body.user.id,
   };
   const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, {
     new: true,
