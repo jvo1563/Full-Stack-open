@@ -24,5 +24,4 @@ const verifyUser = (user) => {
   return false;
 };
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default { login, verifyUser };

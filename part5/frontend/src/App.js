@@ -10,8 +10,6 @@ import loginService from "./services/login";
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [noticationMessage, setNotifcationMessage] = useState(null);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const blogFormRef = useRef();
 
@@ -47,18 +45,12 @@ const App = () => {
     };
   }, [noticationMessage]);
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
+  const handleLogin = async (loginObject) => {
     try {
-      const user = await loginService.login({
-        username,
-        password,
-      });
+      const user = await loginService.login(loginObject);
       window.localStorage.setItem("user", JSON.stringify(user));
       setUser(user);
       blogService.setToken(user.token);
-      setUsername("");
-      setPassword("");
     } catch (exception) {
       setNotifcationMessage("Error: " + exception.response.data.error);
     }
@@ -137,15 +129,7 @@ const App = () => {
     <div>
       <h1>Blogs</h1>
       <Notification message={noticationMessage} />
-      {!user && (
-        <LoginForm
-          username={username}
-          password={password}
-          setUsername={setUsername}
-          setPassword={setPassword}
-          handleLogin={handleLogin}
-        />
-      )}
+      {!user && <LoginForm handleLogin={handleLogin} />}
       {user && logoutButton()}
       {user && (
         <Togglable buttonLabel="Add Blog" ref={blogFormRef}>
