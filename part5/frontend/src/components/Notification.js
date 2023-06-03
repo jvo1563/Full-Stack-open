@@ -3,9 +3,17 @@ const Notification = ({ message }) => {
     return null;
   }
   if (message.includes("Error:")) {
-    return <div style={errorStyle}>{message}</div>;
+    return (
+      <div id="error-message" style={errorStyle}>
+        {message}
+      </div>
+    );
   }
-  return <div style={successStyle}>{message}</div>;
+  return (
+    <div id="success-message" style={successStyle}>
+      {message}
+    </div>
+  );
 };
 
 export default Notification;
