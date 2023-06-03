@@ -20,7 +20,7 @@ import "./commands";
 // require('./commands')
 
 Cypress.Commands.add("login", ({ username, password }) => {
-  cy.request("POST", `${Cypress.env("BACKEND")}/api/login`, {
+  cy.request("POST", `${Cypress.env("BACKEND")}/login`, {
     username,
     password,
   }).then(({ body }) => {

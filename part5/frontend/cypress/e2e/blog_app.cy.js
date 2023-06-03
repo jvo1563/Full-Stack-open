@@ -37,5 +37,23 @@ describe("Blog app", function () {
 
       cy.get("html").should("not.contain", "admin logged in");
     });
+
+    describe("When logged in", function () {
+      beforeEach(function () {
+        cy.login({ username: "root", password: "password" });
+      });
+
+      it("A blog can be created", function () {
+        cy.contains("Add Blog").click();
+        cy.get("#title-input").type("How to code 101");
+        cy.get("#author-input").type("Bob Smith");
+        cy.get("#url-input").type("www.youtube.com");
+        cy.get("#add-blog-button").click();
+        cy.get("#success-message")
+          .should("contain", "Success: How to code 101 by Bob Smith was added")
+          .and("have.css", "color", "rgb(0, 128, 0)");
+        cy.contains("How to code 101 Bob Smith");
+      });
+    });
   });
 });
