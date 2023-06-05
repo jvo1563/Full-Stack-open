@@ -58,26 +58,29 @@ describe("Blog app", function () {
       describe("when several blog exist", function () {
         beforeEach(function () {
           cy.createBlog({
-            title: "1st title",
-            author: "1st author",
-            url: "1st url",
-          });
-          cy.createBlog({
-            title: "2nd title",
-            author: "2nd author",
-            url: "2nd url",
-          });
-          cy.createBlog({
-            title: "3 title",
-            author: "3 author",
-            url: "3 url",
+            title: "How to code 101",
+            author: "Bob Smith",
+            url: "www.code.com",
           });
         });
-        it.only("A blog can be liked", function () {
-          cy.contains("2nd title").contains("View").click();
+
+        it("A blog can be liked", function () {
+          cy.contains("How to code 101").contains("View").click();
           cy.contains("Likes: 0").contains("Like").click();
           cy.contains("Likes: 1").contains("Like").click();
           cy.contains("Likes: 2");
+        });
+
+        it("User who created a blog can delete it", function () {
+          cy.contains("How to code 101").contains("View").click();
+          cy.contains("Remove").click();
+          cy.get("#success-message")
+            .should(
+              "contain",
+              "Success: Removed blog How to code 101 by Bob Smith"
+            )
+            .and("have.css", "color", "rgb(0, 128, 0)");
+          cy.get("html").should("not.contain", "How to code 101 Bob Smith");
         });
       });
     });
