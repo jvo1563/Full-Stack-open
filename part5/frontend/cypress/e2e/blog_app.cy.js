@@ -82,6 +82,18 @@ describe("Blog app", function () {
             .and("have.css", "color", "rgb(0, 128, 0)");
           cy.get("html").should("not.contain", "How to code 101 Bob Smith");
         });
+
+        it("Only creator can see the delete button of a blog", function () {
+          const user = {
+            name: "admin2",
+            username: "root2",
+            password: "password",
+          };
+          cy.request("POST", `${Cypress.env("BACKEND")}/users`, user);
+          cy.login({ username: "root2", password: "password" });
+          cy.contains("How to code 101").contains("View").click();
+          cy.get("html").should("not.contain", "Remove");
+        });
       });
     });
   });
