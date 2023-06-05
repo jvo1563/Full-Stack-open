@@ -54,6 +54,32 @@ describe("Blog app", function () {
           .and("have.css", "color", "rgb(0, 128, 0)");
         cy.contains("How to code 101 Bob Smith");
       });
+
+      describe("when several blog exist", function () {
+        beforeEach(function () {
+          cy.createBlog({
+            title: "1st title",
+            author: "1st author",
+            url: "1st url",
+          });
+          cy.createBlog({
+            title: "2nd title",
+            author: "2nd author",
+            url: "2nd url",
+          });
+          cy.createBlog({
+            title: "3 title",
+            author: "3 author",
+            url: "3 url",
+          });
+        });
+        it.only("A blog can be liked", function () {
+          cy.contains("2nd title").contains("View").click();
+          cy.contains("Likes: 0").contains("Like").click();
+          cy.contains("Likes: 1").contains("Like").click();
+          cy.contains("Likes: 2");
+        });
+      });
     });
   });
 });
