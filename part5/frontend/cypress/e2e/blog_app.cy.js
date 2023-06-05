@@ -55,7 +55,7 @@ describe("Blog app", function () {
         cy.contains("How to code 101 Bob Smith");
       });
 
-      describe("when several blog exist", function () {
+      describe("when a blog already exist", function () {
         beforeEach(function () {
           cy.createBlog({
             title: "How to code 101",
@@ -93,6 +93,26 @@ describe("Blog app", function () {
           cy.login({ username: "root2", password: "password" });
           cy.contains("How to code 101").contains("View").click();
           cy.get("html").should("not.contain", "Remove");
+        });
+
+        it("Most liked blogs are shown first", function () {
+          cy.createBlog({
+            title: "Python Guide",
+            author: "Joey Guy",
+            url: "www.python.com",
+          });
+          cy.contains("Python Guide").contains("View").click();
+          cy.contains("Likes: 0").contains("Like").click();
+          cy.contains("Likes: 1");
+          cy.contains("Python Guide").contains("Hide").click();
+          cy.get(".blog").eq(0).should("contain", "Python Guide");
+          cy.get(".blog").eq(1).should("contain", "How to code 101");
+          cy.contains("How to code 101").contains("View").click();
+          cy.contains("Likes: 0").contains("Like").click();
+          cy.contains("Likes: 1").contains("Like").click();
+          cy.contains("Likes: 2");
+          cy.get(".blog").eq(0).should("contain", "How to code 101");
+          cy.get(".blog").eq(1).should("contain", "Python Guide");
         });
       });
     });

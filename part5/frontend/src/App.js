@@ -75,6 +75,7 @@ const App = () => {
       const newBlogs = blogs.map((blog) =>
         blog.id === updatedBlog.id ? updatedBlog : blog
       );
+      newBlogs.sort((a, b) => b.likes - a.likes);
       setBlogs(newBlogs);
     } catch (exception) {
       setNotifcationMessage("Error: " + exception.response.data.error);
