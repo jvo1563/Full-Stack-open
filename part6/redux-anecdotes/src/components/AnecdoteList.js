@@ -17,12 +17,12 @@ const AnecdotesList = () => {
   const dispatch = useDispatch();
   const anecdotes = useSelector((state) =>
     state.filter
-      ? state.anecdotes
+      ? [...state.anecdotes] // We have to make a copy of state.anecdotes to keep .sort() from modifying the state
           .filter((anecdote) =>
             anecdote.content.toLowerCase().includes(state.filter.toLowerCase())
           )
           .sort((a, b) => b.votes - a.votes)
-      : state.anecdotes.sort((a, b) => b.votes - a.votes)
+      : [...state.anecdotes].sort((a, b) => b.votes - a.votes)
   );
   return (
     <ul>
